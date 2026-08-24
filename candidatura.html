@@ -136,7 +136,7 @@ footer{padding:28px 0;text-align:center;color:#899189;font-size:11px}
 </div>
 
 <div class="consent"><input id="confermaRegolamento" type="checkbox" required><label for="confermaRegolamento">Confermo di aver letto il regolamento e che i dati inseriti sono corretti.</label></div>
-<div class="preview-warning" id="previewWarning">Versione frontend: la candidatura viene salvata nel browser e può essere copiata dopo l'invio.</div>
+<div class="preview-warning" id="previewWarning">La candidatura viene inviata allo staff tramite Discord.</div>
 <div class="submit-row"><div class="status" id="status">Pronto per l'invio.</div><button class="submit" id="submitButton" type="submit"><i class="fa-solid fa-paper-plane"></i> INVIA CANDIDATURA</button></div>
 </form>
 </div>
@@ -220,6 +220,7 @@ const submitButton = document.getElementById('submitButton');
 const CLIENT_ID = '1356303106127696094';
 const REDIRECT_URI = encodeURIComponent(window.location.origin + window.location.pathname);
 const DISCORD_API_ENDPOINT = 'https://discord.com/api/v10';
+const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1541492529801994251/oaY10s3KME1He0KYBdt5satyie_xodVfLTha0lcgKmQlSyGiG2fyq5pylyOD_OFQQImB';
 let discordUserData = null;
 
 const $ = id => document.getElementById(id);
@@ -253,7 +254,7 @@ document.querySelectorAll('textarea[maxlength]').forEach(el => {
   update();
 });
 
-form.addEventListener('submit', e => {
+form.addEventListener('submit', async e => {
   e.preventDefault();
 
   if (!discordUserData) {
@@ -306,6 +307,41 @@ form.addEventListener('submit', e => {
   ];
 
   const text = lines.join('\n');
+  const clip = (value, max = 1000) => String(value || 'Nessuna').slice(0, max);
+  const webhookPayload = {
+    embeds: [{
+      title: `Nuova candidatura - ${clip(payload.nomeRp, 80)} ${clip(payload.cognomeRp, 80)}`,
+      color: 5467464,
+      fields: [
+        {name: 'Account Discord', value: `**Username:** ${clip(payload.discordUsername)}\n**ID:** ${clip(payload.discordId)}`, inline: false},
+        {name: 'Dati candidato', value: `**Nome:** ${clip(payload.nomeRp)} ${clip(payload.cognomeRp)}\n**Età:** ${clip(payload.etaPersonaggio)}\n**Reparto:** ${clip(payload.reparto)}`, inline: false},
+        {name: 'Esperienza precedente', value: clip(payload.esperienza), inline: false},
+        {name: 'Motivazione', value: clip(payload.motivazione), inline: false},
+        {name: 'Disponibilità', value: clip(payload.disponibilita), inline: false},
+        {name: 'Note aggiuntive', value: clip(payload.note), inline: false},
+        {name: 'Data invio', value: clip(payload.dataInvio), inline: false}
+      ],
+      timestamp: new Date().toISOString()
+    }]
+  };
+
+  submitButton.disabled = true;
+  statusEl.className = 'status';
+  statusEl.textContent = 'Invio candidatura in corso...';
+  try {
+    const response = await fetch(DISCORD_WEBHOOK_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(webhookPayload)
+    });
+    if (!response.ok) throw new Error(`Webhook HTTP ${response.status}`);
+  } catch (error) {
+    submitButton.disabled = false;
+    statusEl.className = 'status error';
+    statusEl.textContent = 'Invio non riuscito. Riprova o contatta lo staff.';
+    return;
+  }
+
   localStorage.setItem('ei_ultima_candidatura_testo', text);
 
   document.getElementById('applicationArea').style.display = 'none';
