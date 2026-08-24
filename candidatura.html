@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Candidatura | Esercito Italiano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<style>
+:root{--green:#556849;--green-dark:#394532;--green-deep:#273026;--gold:#b39a55;--text:#1f2320;--muted:#6c736d;--line:#e3e7e1;--soft:#f4f6f2}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;background:#eef1ed;color:var(--text)}
+a{text-decoration:none;color:inherit} button,input,select,textarea{font:inherit}
+.container{width:min(1120px,calc(100% - 34px));margin:auto}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.nav{height:82px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:12px}.star{font-size:38px;color:var(--gold)}
+.brand strong{display:block;font-family:Oswald,sans-serif;font-size:23px;line-height:1}.brand small{letter-spacing:5px;font-size:9px}
+.back{border:1px solid var(--line);padding:11px 15px;background:#fff;font-size:12px;font-weight:800}
+.hero{background:linear-gradient(135deg,var(--green-deep),#1f2721);color:#fff;padding:58px 0 78px;position:relative;overflow:hidden}
+.hero:after{content:"â˜…";position:absolute;right:7%;top:-80px;font-size:300px;color:rgba(255,255,255,.03)}
+.eyebrow{color:#c7d1c3;text-transform:uppercase;letter-spacing:.08em;font-size:11px;font-weight:800}
+h1{font-family:Oswald,sans-serif;text-transform:uppercase;font-size:clamp(44px,7vw,76px);margin:8px 0 10px;line-height:1}
+.hero p{max-width:760px;color:rgba(255,255,255,.7);line-height:1.7;margin:0}
+main{margin-top:-38px;padding-bottom:70px;position:relative;z-index:2}
+.panel{background:#fff;border:1px solid var(--line);box-shadow:0 18px 55px rgba(33,47,37,.10)}
+.intro{padding:32px 36px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center}
+.intro h2,.form-main h2{font-family:Oswald,sans-serif;text-transform:uppercase;font-size:30px;margin:0 0 8px}
+.intro p,.form-main>p{margin:0;color:var(--muted);font-size:12px;line-height:1.7}
+.status-pill{display:inline-flex;align-items:center;gap:8px;padding:10px 13px;background:#edf6ec;color:#3c6a3f;border:1px solid #cfe0cd;font-size:11px;font-weight:800;text-transform:uppercase}
+.dot{width:8px;height:8px;border-radius:50%;background:#55a95a}
+.layout{display:grid;grid-template-columns:290px 1fr}
+aside{background:var(--green-deep);color:#fff;padding:30px}
+aside h3{font-family:Oswald,sans-serif;text-transform:uppercase;font-size:25px;margin:0 0 12px}
+aside p{font-size:12px;color:#aeb9b0;line-height:1.65;margin:0 0 20px}
+.requirements{display:grid;gap:10px}.requirement{display:flex;gap:9px;font-size:11px;color:#d7ded8;line-height:1.45}.requirement i{color:#b9d5b7;margin-top:2px}
+.process{margin-top:28px;border-top:1px solid rgba(255,255,255,.1);padding-top:23px}
+.process-step{display:flex;gap:12px;margin:13px 0}.num{width:27px;height:27px;display:grid;place-items:center;flex:0 0 auto;border:1px solid rgba(255,255,255,.15);font-size:10px;font-weight:800;color:#d9e0da}
+.process-step strong{display:block;font-size:11px}.process-step span{font-size:10px;color:#93a097}
+.form-main{padding:34px}.form-main>p{margin-bottom:26px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field{display:grid;gap:7px}.field.full{grid-column:1/-1}
+label{font-size:12px;font-weight:800;color:#404740}
+input,select,textarea{width:100%;border:1px solid #ccd2ca;background:#fff;padding:12px 13px;outline:none;transition:.18s}
+input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(85,104,73,.08)}
+textarea{min-height:112px;resize:vertical}.counter{font-size:10px;color:#929992;text-align:right}
+.consent{margin-top:20px;background:var(--soft);border:1px solid var(--line);padding:16px;display:flex;gap:11px;align-items:flex-start}
+.consent input{width:auto;margin-top:3px}.consent label{font-weight:500;line-height:1.55;color:#5b635b}
+.submit-row{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:24px}
+.submit{border:0;background:var(--green);color:#fff;padding:14px 22px;font-weight:800;cursor:pointer}.submit:disabled{opacity:.55;cursor:not-allowed}
+.status{font-size:12px;color:var(--muted)}.status.error{color:#b42318}
+.success-box{display:none;padding:55px;text-align:center}.success-box i{font-size:55px;color:var(--green);margin-bottom:16px}
+.success-box h2{font-family:Oswald,sans-serif;text-transform:uppercase;font-size:34px;margin:0 0 8px}.success-box p{color:var(--muted);line-height:1.7}
+.preview-warning{display:none;margin-top:16px;padding:12px;background:#fff5d8;border:1px solid #ead58e;color:#6f5b1d;font-size:11px;line-height:1.5}
+footer{padding:28px 0;text-align:center;color:#899189;font-size:11px}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.field.full{grid-column:auto}.intro{grid-template-columns:1fr}}
+@media(max-width:520px){.form-main,.intro,aside{padding:25px}.submit-row{align-items:stretch;flex-direction:column}.submit{width:100%}}
+
+.brand-logo-real img{height:62px;width:175px;object-fit:contain;object-position:left center}
+@media(max-width:520px){.brand-logo-real img{height:50px;width:145px}}
+
+.site-disclaimer{background:#101510;color:#aeb8ad;border-top:1px solid rgba(255,255,255,.08);padding:16px 0;font-size:11px;line-height:1.65}.site-disclaimer .container{max-width:1180px}
+.modern-footer{background:#182018;color:#d5ddd3;padding:46px 0 28px;margin-top:42px;border-top:1px solid rgba(255,255,255,.08)}.modern-footer-shell{display:grid;gap:26px}.modern-footer-head{display:flex;align-items:center;justify-content:space-between;gap:22px;padding-bottom:22px;border-bottom:1px solid rgba(255,255,255,.10)}.modern-footer-brand{display:flex;align-items:center;gap:16px;color:#fff;text-decoration:none}.footer-ei-logo{height:58px;width:168px;object-fit:contain;object-position:left center;filter:none}.modern-footer-brand strong{display:block;font-family:Oswald,sans-serif;font-size:28px;line-height:1;letter-spacing:0}.modern-footer-brand small{display:block;margin-top:4px;font-size:11px;letter-spacing:.16em;color:#aeb8ad}.modern-footer-cta{display:flex;gap:10px;flex-wrap:wrap}.footer-primary,.footer-secondary{display:inline-flex;align-items:center;gap:9px;border-radius:6px;padding:12px 15px;font-size:12px;font-weight:800;text-transform:uppercase;text-decoration:none}.footer-primary{background:#fff;color:#182018}.footer-secondary{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#fff}.footer-primary:hover{background:#b39a55;color:#182018}.footer-secondary:hover{border-color:#b39a55;color:#fff}.modern-footer-grid{display:grid;grid-template-columns:1.2fr 1.15fr 1fr 1.15fr;gap:16px}.modern-footer-card{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:22px;min-height:100%}.modern-footer-card h3{font-family:Oswald,sans-serif;text-transform:uppercase;font-size:22px;line-height:1;margin:0 0 16px;color:#fff;letter-spacing:0}.modern-footer-card h3:after{content:"";display:block;width:42px;height:3px;background:#b39a55;margin-top:10px}.footer-summary p{margin:0;color:#c2cbc0;line-height:1.7;font-size:13px}.footer-link-list{display:grid;gap:10px}.footer-link-list a{display:flex;align-items:center;gap:10px;color:#d5ddd3;text-decoration:none;font-size:13px;line-height:1.35}.footer-link-list a i{width:18px;color:#b39a55;text-align:center}.footer-link-list a:hover{color:#fff}.footer-contact-card{display:grid;gap:12px}.footer-contact-card p{display:flex;gap:11px;align-items:flex-start;margin:0;color:#d5ddd3;font-size:13px}.footer-contact-card p i{width:18px;color:#b39a55;text-align:center;margin-top:2px}.footer-contact-card b{display:block;color:#fff;font-size:11px;text-transform:uppercase;margin-bottom:2px}.modern-footer-bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:20px;border-top:1px solid rgba(255,255,255,.10);font-size:12px;color:#aeb8ad}.modern-footer-bottom nav{display:flex;gap:14px;flex-wrap:wrap}.modern-footer-bottom a{color:#d5ddd3;text-decoration:none}.modern-footer-bottom a:hover{color:#fff}.site-disclaimer{margin-top:0}@media(max-width:1050px){.modern-footer-grid{grid-template-columns:1fr 1fr}.modern-footer-head,.modern-footer-bottom{align-items:flex-start;flex-direction:column}}@media(max-width:620px){.modern-footer{padding-top:34px}.modern-footer-grid{grid-template-columns:1fr}.modern-footer-card{padding:18px}.modern-footer-brand{align-items:flex-start;flex-direction:column}.footer-ei-logo{height:52px;width:150px}.modern-footer-brand strong{font-size:24px}}
+.footer-contact-card{gap:16px}.footer-contact-card h3{margin-bottom:12px}.footer-contact-list{display:grid;gap:10px}.footer-contact-item{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:center;padding:12px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.035);border-radius:8px;text-align:left}.footer-contact-item>i{width:34px;height:34px;display:grid;place-items:center;border-radius:7px;background:rgba(179,154,85,.13);color:#d4b766;font-size:15px}.footer-contact-item b{display:block;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}.footer-contact-item em{display:block;color:#dce5da;font-style:normal;font-size:13px;line-height:1.3;overflow-wrap:anywhere}@media(max-width:620px){.footer-contact-item{grid-template-columns:32px 1fr;padding:11px}.footer-contact-item>i{width:32px;height:32px}}.hidden{display:none!important}.discord-gate{padding:30px 34px;margin-bottom:18px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}.discord-gate h2{font-family:Oswald,sans-serif;text-transform:uppercase;font-size:32px;margin:6px 0 8px}.discord-gate p{margin:0;color:var(--muted);line-height:1.65;font-size:13px;max-width:720px}.discord-kicker{display:inline-block;color:#596653;text-transform:uppercase;font-size:11px;font-weight:800;letter-spacing:.08em}.discord-login{border:0;background:#5865f2;color:#fff;padding:13px 17px;border-radius:7px;font-size:12px;font-weight:900;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:9px;white-space:nowrap}.discord-login:hover{filter:brightness(.96)}.discord-box{margin-bottom:22px;padding:14px 15px;border:1px solid #cfe0cd;background:#edf6ec;color:#2e5d32;font-size:12px;line-height:1.55}.discord-box strong{display:block;color:#214925;font-size:13px}@media(max-width:720px){.discord-gate{grid-template-columns:1fr;padding:25px}.discord-login{width:100%}}.container{width:min(1180px,calc(100% - 40px))}body{background:#fff}.site-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,.05)}.site-header .nav{height:86px}.menu{display:flex;align-items:center;justify-content:center;gap:22px;font-size:13px;font-weight:700;margin-left:auto}.menu a{position:relative;padding:32px 0;color:#323632}.menu a:hover{color:var(--green)}.hero{background:linear-gradient(135deg,#f4f6f2,#e7ebe4);color:var(--text);padding:70px 0 82px}.hero:after{content:"";position:absolute;inset:auto -10% -55% auto;width:520px;height:520px;background:rgba(85,104,73,.08);transform:rotate(20deg)}.eyebrow{color:var(--green)}h1{font-size:clamp(42px,7vw,86px);line-height:.95;margin:10px 0 16px}.hero p{color:var(--muted);font-size:15px;line-height:1.75}.block{margin-top:0;padding-top:72px;padding-bottom:72px}.notice{border:1px solid #d8ceb1;background:#fbf8ef;color:#605331;border-radius:8px;padding:14px;font-size:13px;line-height:1.6}.panel{border-radius:8px}.discord-gate{display:block;padding:30px;margin-top:0;margin-bottom:18px;border-radius:8px}.discord-gate h2{font-family:Oswald,sans-serif;text-transform:uppercase;font-size:clamp(32px,4vw,54px);line-height:1;margin:0 0 18px}.discord-gate p{margin:0 0 18px;color:var(--muted);line-height:1.8;font-size:14px;max-width:820px}.discord-login{border:0;background:var(--green);color:#fff;padding:13px 18px;border-radius:4px;font-size:13px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}.discord-login:hover{background:var(--green-dark)}.block>.notice+.discord-gate{margin-top:0}.application-panel{margin-top:18px}@media(max-width:850px){.site-header .nav{height:auto;align-items:flex-start;padding:16px 0;flex-direction:column}.menu{justify-content:flex-start;flex-wrap:wrap;gap:14px;margin-left:0}.menu a{padding:4px 0}.hero{padding:48px 0 60px}.block{padding-top:48px;padding-bottom:48px}}@media(max-width:520px){.discord-login{width:100%}}</style>
+</head>
+<body>
+<header class="site-header"><div class="container nav">
+<a class="brand brand-logo-real" href="index.html"><img src="https://it.wikipedia.org/wiki/Special:Redirect/file/Logo%20Esercito%20Italiano%20stella.svg" alt="Logo Esercito Italiano"></a>
+<nav class="menu">
+<a href="index.html#home">Home</a><a href="index.html#chi-siamo">Chi siamo</a><a href="index.html#reparti">Reparti</a><a href="index.html#gradi">Gradi</a><a href="index.html#contatti-footer">Contatti</a>
+</nav>
+</div></header>
+
+<section class="hero"><div class="container">
+<div class="eyebrow">Ufficio Concorsi · Bando di Arruolamento</div>
+<h1>Candidatura</h1>
+<p>Accedi con Discord per verificare il tuo account, poi compila il modulo e invia la domanda.</p>
+</div></section>
+
+<main class="container block">
+<div class="notice">Accedendo con Discord e inviando la candidatura accetti che username Discord, ID Discord e dati inseriti nel modulo vengano inclusi nella domanda.</div>
+<section class="discord-gate panel" id="discordGate">
+  <h2>Accesso Discord</h2>
+  <p>Per iniziare devi verificare il tuo account Discord.</p>
+  <button class="discord-login" id="discordLogin" type="button"><i class="fa-brands fa-discord"></i> Accedi con Discord</button>
+</section>
+<div class="panel application-panel hidden" id="applicationPanel">
+<div class="intro">
+<div><h2>Bando aperto</h2><p>Una volta ricevuta, la candidatura verrà valutata dall'Ufficio Concorsi per le successive fasi di selezione.</p></div>
+<div class="status-pill"><span class="dot"></span> Arruolamenti aperti</div>
+</div>
+
+<section class="layout" id="applicationArea">
+<aside>
+<h3>Requisiti</h3>
+<p>Prima di candidarti assicurati di rispettare i requisiti minimi della fazione.</p>
+<div class="requirements">
+<div class="requirement"><i class="fa-solid fa-check"></i><span>Conoscenza del regolamento interno</span></div>
+<div class="requirement"><i class="fa-solid fa-check"></i><span>Serietà e disponibilità operativa</span></div>
+<div class="requirement"><i class="fa-solid fa-check"></i><span>Microfono funzionante</span></div>
+<div class="requirement"><i class="fa-solid fa-check"></i><span>Rispetto della gerarchia interna</span></div>
+<div class="requirement"><i class="fa-solid fa-check"></i><span>Disponibilità all'addestramento iniziale</span></div>
+</div>
+<div class="process">
+<h3 style="font-size:20px">Iter di selezione</h3>
+<div class="process-step"><div class="num">01</div><div><strong>Candidatura</strong><span>Invio del modulo</span></div></div>
+<div class="process-step"><div class="num">02</div><div><strong>Valutazione</strong><span>Controllo domanda</span></div></div>
+<div class="process-step"><div class="num">03</div><div><strong>Colloquio</strong><span>Conoscenza e motivazione</span></div></div>
+<div class="process-step"><div class="num">04</div><div><strong>CAR</strong><span>Addestramento iniziale</span></div></div>
+</div>
+</aside>
+
+<div class="form-main">
+<div id="discordBox" class="discord-box"></div>
+<h2>Modulo di candidatura</h2>
+<p>Tutti i campi contrassegnati con * sono obbligatori.</p>
+
+<form id="applicationForm">
+<div class="grid">
+<div class="field"><label>Nome personaggio *</label><input name="nomeRp" maxlength="40" required placeholder="Nome"></div>
+<div class="field"><label>Cognome personaggio *</label><input name="cognomeRp" maxlength="40" required placeholder="Cognome"></div>
+<div class="field"><label>Età *</label><input name="etaPersonaggio" type="number" min="18" max="90" required placeholder="es. 24"></div>
+
+<div class="field full"><label>Reparto preferito *</label>
+<select name="reparto" required>
+<option value="">Seleziona...</option>
+<option>Fanteria</option><option>Cavalleria</option><option>Artiglieria</option><option>Genio</option>
+<option>Paracadutisti</option><option>Carristi</option><option>Aviazione dell'Esercito / Piloti</option>
+<option>Logistica / Trasporti e Materiali</option><option>Indifferente / Da assegnare</option>
+</select></div>
+
+<div class="field full"><label>Esperienza precedente *</label><textarea id="esperienza" name="esperienza" maxlength="900" required></textarea><div class="counter"><span data-count="esperienza">0</span>/900</div></div>
+<div class="field full"><label>Perché vuoi entrare nell'Esercito Italiano? *</label><textarea id="motivazione" name="motivazione" maxlength="900" required></textarea><div class="counter"><span data-count="motivazione">0</span>/900</div></div>
+<div class="field full"><label>Disponibilità indicativa *</label><textarea id="disponibilita" name="disponibilita" maxlength="500" required></textarea><div class="counter"><span data-count="disponibilita">0</span>/500</div></div>
+<div class="field full"><label>Note aggiuntive</label><textarea id="note" name="note" maxlength="500"></textarea><div class="counter"><span data-count="note">0</span>/500</div></div>
+</div>
+
+<div class="consent"><input id="confermaRegolamento" type="checkbox" required><label for="confermaRegolamento">Confermo di aver letto il regolamento e che i dati inseriti sono corretti.</label></div>
+<div class="preview-warning" id="previewWarning">Versione frontend: la candidatura viene salvata nel browser e può essere copiata dopo l'invio.</div>
+<div class="submit-row"><div class="status" id="status">Pronto per l'invio.</div><button class="submit" id="submitButton" type="submit"><i class="fa-solid fa-paper-plane"></i> INVIA CANDIDATURA</button></div>
+</form>
+</div>
+</section>
+
+<section class="success-box" id="successBox">
+<i class="fa-solid fa-circle-check"></i><h2>Candidatura inviata</h2><p>La tua domanda è stata inoltrata all'Ufficio Concorsi.</p><a class="back" href="index.html">TORNA ALLA HOME</a>
+</section>
+</div>
+</main>
+
+<footer class="imrp-footer modern-footer">
+  <div class="container modern-footer-shell">
+    <div class="modern-footer-head">
+      <div class="modern-footer-cta">
+        <a class="footer-primary" href="candidatura.html"><i class="fa-solid fa-file-signature"></i> Invia candidatura</a>
+      </div>
+    </div>
+
+    <div class="modern-footer-grid">
+      <section class="modern-footer-card footer-summary">
+        <h3>Portale</h3>
+        <p>Portale informativo e operativo dell'Esercito Italiano IMRP, dedicato a comunicazioni, candidature, selezioni e strumenti interni.</p>
+      </section>
+
+      <section class="modern-footer-card footer-links-card">
+        <h3>Link utili</h3>
+        <div class="footer-link-list">
+          <a href="index.html#home"><i class="fa-solid fa-house"></i> Home</a>
+          <a href="index.html#chi-siamo"><i class="fa-solid fa-users"></i> Chi siamo</a>
+          <a href="index.html#reparti"><i class="fa-solid fa-sitemap"></i> Reparti</a>
+          <a href="index.html#reparti"><i class="fa-solid fa-map-location-dot"></i> Operazioni</a>
+          <a href="index.html#gradi"><i class="fa-solid fa-image"></i> Galleria</a>
+          <a href="candidatura.html"><i class="fa-solid fa-clipboard-list"></i> Bandi di arruolamento</a>
+          <a href="index.html#gradi"><i class="fa-solid fa-medal"></i> Organigramma</a>
+          <a href="index.html#contatti-footer"><i class="fa-solid fa-circle-question"></i> FAQ</a>
+        </div>
+      </section>
+
+      <section class="modern-footer-card footer-links-card">
+        <h3>Documenti</h3>
+        <div class="footer-link-list">
+          <a href="index.html#chi-siamo"><i class="fa-solid fa-graduation-cap"></i> Percorsi formativi</a>
+          <a href="index.html#chi-siamo"><i class="fa-solid fa-clock-rotate-left"></i> Storia dell'Esercito</a>
+          <a href="portale.html"><i class="fa-solid fa-newspaper"></i> Notizie</a>
+          <a href="quiz.html"><i class="fa-solid fa-clipboard-question"></i> Modulo quiz</a>
+        </div>
+      </section>
+      <section class="modern-footer-card footer-contact-card" id="contatti-footer">
+        <h3>Contatti</h3>
+        <div class="footer-contact-list">
+          <div class="footer-contact-item"><i class="fa-brands fa-discord"></i><span><b>Discord</b><em>EsercitoItalianoRP</em></span></div>
+          
+          <div class="footer-contact-item"><i class="fa-solid fa-calendar-check"></i><span><b>Addestramenti</b><em>Martedì, Giovedì, Sabato</em></span></div>
+          <div class="footer-contact-item"><i class="fa-solid fa-bullhorn"></i><span><b>Reclutamenti</b><em>Lunedì e Venerdì</em></span></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="modern-footer-bottom">
+      <span>© 2026 Esercito Italiano IMRP</span>
+      <nav aria-label="Collegamenti rapidi footer">
+        <a href="portale.html">Notizie</a>
+        <a href="candidatura.html">Candidatura</a>
+        <a href="quiz.html">Quiz</a>
+        <a href="minnesota.html">Minnesota</a>
+        <a href="index.html#contatti-footer">Contatti</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+<div class="site-disclaimer">
+  <div class="container">Tutti i contenuti presenti in questo sito sono frutto di fantasia e sono destinati esclusivamente a un contesto ricreativo e narrativo. Nomi, gradi, moduli, quiz, procedure e riferimenti istituzionali non hanno alcun valore ufficiale, amministrativo o legale e non sono collegati all'Esercito Italiano, al Ministero della Difesa o ad altri enti reali.</div>
+</div>
+
+
+<script>
+const form = document.getElementById('applicationForm');
+const statusEl = document.getElementById('status');
+const submitButton = document.getElementById('submitButton');
+const CLIENT_ID = '1356303106127696094';
+const REDIRECT_URI = encodeURIComponent(window.location.origin + window.location.pathname);
+const DISCORD_API_ENDPOINT = 'https://discord.com/api/v10';
+let discordUserData = null;
+
+const $ = id => document.getElementById(id);
+$('discordLogin').onclick = () => {
+  window.location.href = `https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=identify`;
+};
+
+async function checkForDiscordToken(){
+  const fragment = new URLSearchParams(window.location.hash.slice(1));
+  const token = fragment.get('access_token');
+  if(!token) return;
+  history.pushState('', document.title, window.location.pathname + window.location.search);
+  try{
+    const response = await fetch(`${DISCORD_API_ENDPOINT}/users/@me`, {headers:{Authorization:`Bearer ${token}`}});
+    if(!response.ok) throw new Error('Discord auth failed');
+    discordUserData = await response.json();
+    $('discordGate').classList.add('hidden');
+    $('applicationPanel').classList.remove('hidden');
+    $('discordBox').innerHTML = `<strong>Connesso come ${discordUserData.username}</strong>ID Discord: ${discordUserData.id}`;
+  }catch(error){
+    alert('Accesso Discord non riuscito. Riprova.');
+  }
+}
+checkForDiscordToken();
+
+document.querySelectorAll('textarea[maxlength]').forEach(el => {
+  const output = document.querySelector(`[data-count="${el.id}"]`);
+  if (!output) return;
+  const update = () => output.textContent = el.value.length;
+  el.addEventListener('input', update);
+  update();
+});
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+
+  if (!discordUserData) {
+    statusEl.className = 'status error';
+    statusEl.textContent = 'Devi accedere con Discord prima di inviare la candidatura.';
+    $('discordGate').classList.remove('hidden');
+    $('applicationPanel').classList.add('hidden');
+    return;
+  }
+
+  const payload = Object.fromEntries(new FormData(form).entries());
+  payload.discordUsername = discordUserData.username;
+  payload.discordId = discordUserData.id;
+  payload.confermaRegolamento = document.getElementById('confermaRegolamento').checked;
+  payload.dataInvio = new Date().toLocaleString('it-IT');
+
+  if (!payload.confermaRegolamento) {
+    statusEl.className = 'status error';
+    statusEl.textContent = 'Devi confermare il regolamento.';
+    return;
+  }
+
+  const saved = JSON.parse(localStorage.getItem('ei_candidature') || '[]');
+  saved.unshift(payload);
+  localStorage.setItem('ei_candidature', JSON.stringify(saved.slice(0, 100)));
+
+  const lines = [
+    'CANDIDATURA ESERCITO ITALIANO',
+    '',
+    `Discord verificato: ${payload.discordUsername}`,
+    `ID Discord: ${payload.discordId}`,
+    '',
+    `Dati candidato: ${payload.nomeRp || ''} ${payload.cognomeRp || ''}`,
+    `Età: ${payload.etaPersonaggio || ''}`,
+    `Reparto preferito: ${payload.reparto || ''}`,
+    '',
+    'Esperienza precedente:',
+    payload.esperienza || '',
+    '',
+    'Motivazione:',
+    payload.motivazione || '',
+    '',
+    'Disponibilità:',
+    payload.disponibilita || '',
+    '',
+    'Note:',
+    payload.note || 'Nessuna',
+    '',
+    `Data: ${payload.dataInvio}`
+  ];
+
+  const text = lines.join('\n');
+  localStorage.setItem('ei_ultima_candidatura_testo', text);
+
+  document.getElementById('applicationArea').style.display = 'none';
+  document.querySelector('.intro').style.display = 'none';
+  document.getElementById('successBox').style.display = 'block';
+
+  const copyBtn = document.createElement('button');
+  copyBtn.className = 'submit';
+  copyBtn.style.marginTop = '18px';
+  copyBtn.innerHTML = '<i class="fa-solid fa-copy"></i> COPIA CANDIDATURA';
+  copyBtn.onclick = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      copyBtn.textContent = 'COPIATA';
+    } catch {
+      alert(text);
+    }
+  };
+  document.getElementById('successBox').appendChild(copyBtn);
+});
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
