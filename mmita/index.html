@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portale Marina Militare: comandi, missioni, gradi e flotta.">
+  <title>Marina Militare | Portale EI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    :root {
+      --ink: #152027;
+      --muted: #60717a;
+      --navy: #073b64;
+      --navy-deep: #05283f;
+      --sea: #167f9d;
+      --gold: #b99648;
+      --paper: #f5f7f5;
+      --white: #fff;
+      --line: #d9e0e0;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--white); font-family: Inter, Arial, sans-serif; line-height: 1.6; }
+    img, video { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .container { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+    .eyebrow { margin: 0 0 10px; color: var(--gold); font-size: .75rem; font-weight: 800; letter-spacing: 0; text-transform: uppercase; }
+    .section-title { margin: 0; font: 700 clamp(2rem, 5vw, 3.7rem)/1 Oswald, sans-serif; text-transform: uppercase; }
+    .section-intro { max-width: 650px; margin: 16px 0 0; color: var(--muted); }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 40px; margin-bottom: 36px; }
+    section { scroll-margin-top: 80px; }
+
+    .site-header { position: sticky; top: 0; z-index: 30; min-height: 76px; border-top: 3px solid var(--gold); border-bottom: 1px solid rgba(21,32,39,.1); background: rgba(255,255,255,.96); backdrop-filter: blur(12px); }
+    .header-inner { min-height: 73px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 190px; }
+    .brand img { width: 48px; height: 48px; object-fit: contain; }
+    .brand-copy { display: grid; line-height: 1; }
+    .brand-copy strong { font: 700 1.25rem Oswald, sans-serif; text-transform: uppercase; }
+    .brand-copy span { margin-top: 6px; color: var(--sea); font-size: .66rem; font-weight: 800; text-transform: uppercase; }
+    .main-nav { display: flex; align-items: center; gap: 24px; font-size: .85rem; font-weight: 700; }
+    .main-nav a { position: relative; padding: 28px 0 24px; }
+    .main-nav a::after { content: ""; position: absolute; right: 0; bottom: 17px; left: 0; height: 2px; background: var(--gold); transform: scaleX(0); transition: transform .2s ease; }
+    .main-nav a:hover::after, .main-nav a:focus-visible::after { transform: scaleX(1); }
+    .army-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 13px; border: 1px solid var(--line); color: var(--navy-deep); background: var(--white); font-size: .75rem; font-weight: 800; text-transform: uppercase; }
+    .menu-toggle { display: none; width: 42px; height: 42px; border: 1px solid var(--line); background: var(--white); color: var(--ink); cursor: pointer; }
+
+    .hero { position: relative; min-height: min(680px, calc(100vh - 76px)); overflow: hidden; display: grid; align-items: end; color: var(--white); background: var(--navy-deep); }
+    .hero video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(3,25,40,.9) 0%, rgba(3,25,40,.55) 55%, rgba(3,25,40,.2) 100%); }
+    .hero-content { position: relative; z-index: 1; padding: 100px 0 92px; }
+    .hero-mark { width: clamp(190px, 28vw, 340px); max-height: 120px; margin-bottom: 24px; object-fit: contain; object-position: left center; filter: drop-shadow(0 4px 16px rgba(0,0,0,.32)); }
+    .hero h1 { max-width: 830px; margin: 0; font: 700 clamp(3.6rem, 9vw, 7.5rem)/.9 Oswald, sans-serif; text-transform: uppercase; }
+    .hero p { max-width: 650px; margin: 24px 0 30px; color: #e6eeee; font-size: clamp(1rem, 2vw, 1.18rem); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .button { min-height: 46px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 0 18px; border: 1px solid transparent; background: var(--gold); color: #101820; font-size: .78rem; font-weight: 800; text-transform: uppercase; transition: transform .2s, background .2s; }
+    .button:hover { transform: translateY(-2px); background: #cbaa5d; }
+    .button.secondary { border-color: rgba(255,255,255,.55); color: var(--white); background: rgba(5,40,63,.45); }
+    .hero-status { position: absolute; z-index: 2; right: max(20px, calc((100vw - var(--max))/2)); bottom: 28px; display: flex; align-items: center; gap: 10px; color: #eaf0f1; font-size: .74rem; font-weight: 700; text-transform: uppercase; }
+    .hero-status::before { content: ""; width: 30px; height: 2px; background: var(--gold); }
+
+    .identity { padding: 94px 0; background: var(--paper); }
+    .identity-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr); gap: 72px; align-items: center; }
+    .identity-copy p:not(.eyebrow) { color: var(--muted); }
+    .values { margin-top: 34px; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+    .value { padding: 24px 18px 0 0; }
+    .value i { color: var(--gold); font-size: 1.25rem; }
+    .value strong { display: block; margin-top: 10px; font-family: Oswald, sans-serif; text-transform: uppercase; }
+    .identity-media { position: relative; min-height: 450px; }
+    .identity-media img { width: 100%; height: 450px; object-fit: cover; }
+    .identity-media figcaption { position: absolute; right: -18px; bottom: -18px; width: min(280px, 80%); padding: 18px 20px; border-left: 4px solid var(--gold); background: var(--navy-deep); color: var(--white); font-size: .8rem; }
+
+    .commands { padding: 94px 0; }
+    .command-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .command-card { position: relative; min-height: 390px; overflow: hidden; background: var(--navy-deep); color: var(--white); }
+    .command-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
+    .command-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(3,27,43,.98) 0%, rgba(3,27,43,.12) 75%); }
+    .command-card:hover img { transform: scale(1.04); }
+    .command-copy { position: absolute; z-index: 1; right: 0; bottom: 0; left: 0; padding: 24px; }
+    .command-copy span { color: #d8c18a; font-size: .68rem; font-weight: 800; text-transform: uppercase; }
+    .command-copy h3 { margin: 5px 0 8px; font: 600 1.45rem/1.1 Oswald, sans-serif; text-transform: uppercase; }
+    .command-copy p { margin: 0; color: #dbe5e8; font-size: .82rem; line-height: 1.5; }
+
+    .missions { padding: 94px 0; color: var(--ink); background: #f2f4f3; }
+    .missions .section-intro { color: var(--muted); }
+    .mission-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .mission-card { overflow: hidden; border: 1px solid var(--line); background: var(--white); }
+    .mission-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+    .mission-copy { padding: 22px; }
+    .mission-meta { display: flex; justify-content: space-between; gap: 14px; color: var(--sea); font-size: .68rem; font-weight: 800; text-transform: uppercase; }
+    .mission-copy h3 { margin: 10px 0 8px; font: 600 1.5rem Oswald, sans-serif; text-transform: uppercase; }
+    .mission-copy p { margin: 0; color: var(--muted); font-size: .85rem; }
+
+    .ranks { padding: 94px 0; color: var(--ink); background: var(--white); }
+    .ranks .section-intro { color: var(--muted); }
+    .wiki-ranks-vertical { margin-top: 34px; }
+    .wiki-rank-category { margin-bottom: 18px; overflow: hidden; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.02); }
+    .wiki-rank-category-title { padding: 5px 10px; color: #111; background: #d8d8d8; font-size: .78rem; font-weight: 700; line-height: 1.2; text-align: center; text-transform: lowercase; }
+    .rank-wiki-band { color: var(--white); background: var(--gold); font-weight: 800; }
+    .rank-wiki-row { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: center; gap: 34px 58px; padding: 20px 22px 16px; background: #ececec; }
+    .rank-wiki-row-single { gap: 10px; }
+    .rank-wiki-item { width: 160px; color: #0b43c5; text-align: center; }
+    .rank-wiki-image-wrap { height: 150px; display: flex; align-items: flex-end; justify-content: center; margin-bottom: 6px; }
+    .rank-wiki-image-wrap img { width: auto; height: auto; max-width: 96px; max-height: 140px; object-fit: contain; }
+    .rank-wiki-name { color: #0b43c5; font-size: .78rem; line-height: 1.3; }
+    .rank-wiki-note { margin-top: 2px; color: #0b43c5; font-size: .68rem; line-height: 1.4; }
+    .rank-general-category { overflow: hidden; border: 1px solid rgba(32,46,35,.14); background: #f7f8f4; box-shadow: 0 18px 44px rgba(0,0,0,.14); }
+    .rank-general-tree { display: grid; justify-items: center; gap: 18px; padding: 18px 24px 26px; background: #f7f8f4; }
+    .rank-general-level { width: 100%; display: flex; justify-content: center; }
+    .rank-general-bottom { width: 100%; display: grid; grid-template-columns: repeat(4,minmax(130px,1fr)); align-items: end; justify-items: center; gap: 26px; }
+    .rank-general-category .rank-wiki-item { width: min(210px,100%); }
+    .rank-general-category .rank-general-feature { width: min(360px,100%); }
+    .rank-general-category .rank-wiki-image-wrap { height: 150px; align-items: flex-end; margin-bottom: 6px; }
+
+    .fleet { padding: 94px 0; background: var(--paper); }
+    .fleet-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .ship { position: relative; min-height: 360px; overflow: hidden; background: var(--ink); }
+    .ship img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
+    .ship:hover img { transform: scale(1.04); }
+    .ship figcaption { position: absolute; right: 0; bottom: 0; left: 0; padding: 50px 20px 18px; color: var(--white); background: linear-gradient(transparent, rgba(4,23,34,.94)); }
+    .ship strong { display: block; font: 600 1.25rem Oswald, sans-serif; text-transform: uppercase; }
+    .ship span { color: #d5e2e5; font-size: .72rem; }
+
+    .contact-band { padding: 70px 0; color: var(--white); background: var(--sea); }
+    .contact-inner { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 30px; }
+    .contact-inner h2 { margin: 0; font: 700 clamp(2rem, 5vw, 3.6rem)/1 Oswald, sans-serif; text-transform: uppercase; }
+    .contact-inner p { max-width: 680px; margin: 12px 0 0; color: #e4f2f5; }
+    .contact-items { display: flex; gap: 12px; }
+    .contact-chip { min-height: 48px; display: inline-flex; align-items: center; gap: 10px; padding: 0 16px; border: 1px solid rgba(255,255,255,.45); background: rgba(4,40,63,.25); font-size: .8rem; font-weight: 800; }
+
+    .site-footer { padding: 50px 0 24px; color: #dfe7e8; background: #101a1f; }
+    .footer-grid { display: grid; grid-template-columns: 1.1fr .9fr .9fr; gap: 60px; padding-bottom: 40px; }
+    .footer-title { margin: 0 0 16px; color: var(--white); font: 600 1.1rem Oswald, sans-serif; text-transform: uppercase; }
+    .footer-copy { max-width: 400px; color: #9eafb5; font-size: .82rem; }
+    .footer-links { display: grid; gap: 9px; font-size: .82rem; }
+    .footer-links a:hover { color: #d8c18a; }
+    .footer-links i { width: 18px; color: var(--gold); }
+    .footer-bottom { display: flex; justify-content: space-between; gap: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.12); color: #91a2a9; font-size: .72rem; }
+    .disclaimer { padding: 18px 0; color: #a7b2b5; background: #0a1115; font-size: .67rem; line-height: 1.55; }
+
+    @media (max-width: 1050px) {
+      .main-nav { position: fixed; top: 76px; right: 0; left: 0; display: none; padding: 12px 20px 22px; border-bottom: 1px solid var(--line); background: var(--white); box-shadow: 0 14px 30px rgba(0,0,0,.12); }
+      .main-nav.open { display: grid; }
+      .main-nav a { padding: 11px 0; }
+      .main-nav a::after { bottom: 5px; transform-origin: left; }
+      .menu-toggle { display: inline-grid; place-items: center; }
+      .army-link { margin-left: auto; }
+      .command-grid, .fleet-grid { grid-template-columns: repeat(2, 1fr); }
+      .rank-grid { grid-template-columns: repeat(4, 1fr); }
+      .contact-inner { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .container { width: min(100% - 28px, var(--max)); }
+      .brand-copy span { display: none; }
+      .army-link span { display: none; }
+      .section-head { display: block; }
+      .identity, .commands, .missions, .ranks, .fleet { padding: 70px 0; }
+      .hero { min-height: 620px; }
+      .hero-content { padding: 80px 0 96px; }
+      .hero h1 { font-size: clamp(3.5rem, 18vw, 5rem); }
+      .hero-status { right: 14px; bottom: 20px; }
+      .identity-grid { grid-template-columns: 1fr; gap: 42px; }
+      .identity-media, .identity-media img { min-height: 360px; height: 360px; }
+      .identity-media figcaption { right: 0; }
+      .values { grid-template-columns: 1fr; }
+      .value { padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+      .mission-grid { grid-template-columns: 1fr; }
+      .rank-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+      .footer-grid section:first-child { grid-column: 1 / -1; }
+      .footer-bottom { flex-direction: column; }
+    }
+
+    @media (max-width: 520px) {
+      .brand { min-width: 0; }
+      .brand-copy strong { font-size: 1rem; }
+      .command-grid, .fleet-grid { grid-template-columns: 1fr; }
+      .command-card { min-height: 350px; }
+      .contact-items { display: grid; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-grid section:first-child { grid-column: auto; }
+      .rank-card { min-height: 230px; }
+      .rank-card img { width: 66px; height: 130px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#home" aria-label="Marina Militare, home">
+        <img src="assets/logo.png" alt="Emblema Marina Militare">
+        <span class="brand-copy"><strong>Marina Militare</strong><span>Area navale</span></span>
+      </a>
+      <nav class="main-nav" id="main-nav" aria-label="Navigazione Marina">
+        <a href="#chi-siamo">Chi siamo</a>
+        <a href="#comandi">Comandi</a>
+        <a href="#missioni">Missioni</a>
+        <a href="quiz.html">Quiz</a>
+        <a href="#gradi">Gradi</a>
+        <a href="#flotta">Flotta</a>
+      </nav>
+      <a class="army-link" href="../index.html"><i class="fa-solid fa-arrow-left"></i><span>Portale Esercito</span></a>
+      <button class="menu-toggle" type="button" aria-label="Apri menu" aria-controls="main-nav" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <video autoplay muted loop playsinline poster="assets/gallery/cavour.jpg">
+        <source src="assets/marinamilitare.mp4" type="video/mp4">
+      </video>
+      <div class="container hero-content">
+        <img class="hero-mark" src="assets/mmscritta.png" alt="Marina Militare">
+        <p class="eyebrow">Componente navale</p>
+        <h1>Mare, onore, patria</h1>
+        <p>Presenza, competenza e capacità operativa sul mare. Esplora l’organizzazione, i comandi, le missioni e i gradi della Marina.</p>
+
+      </div>
+      <span class="hero-status">Portale Marina</span>
+    </section>
+
+    <section class="identity" id="chi-siamo">
+      <div class="container identity-grid">
+        <div class="identity-copy">
+          <p class="eyebrow">Identità e compiti</p>
+          <h2 class="section-title">La componente sul mare</h2>
+          <p>La Marina assicura capacità navali, anfibie e subacquee, contribuendo alla sicurezza marittima e alla tutela delle rotte strategiche. Uomini, mezzi e specialità operano in modo coordinato per garantire presenza e prontezza.</p>
+          <p>Tradizione, preparazione e tecnologia definiscono una struttura capace di affrontare scenari differenti, dal pattugliamento alla proiezione anfibia.</p>
+          <div class="values">
+            <div class="value"><i class="fa-solid fa-compass"></i><strong>Presenza</strong><span>Controllo e sorveglianza marittima.</span></div>
+            <div class="value"><i class="fa-solid fa-people-group"></i><strong>Equipaggio</strong><span>Coordinamento e responsabilità condivisa.</span></div>
+            <div class="value"><i class="fa-solid fa-gears"></i><strong>Capacità</strong><span>Mezzi e specialità integrate.</span></div>
+          </div>
+        </div>
+        <figure class="identity-media">
+          <img src="assets/cerimoniaufficiale.jpg" alt="Cerimonia della Marina Militare">
+          <figcaption>Disciplina, preparazione e spirito di equipaggio al servizio delle operazioni navali.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="commands" id="comandi">
+      <div class="container">
+        <div class="section-head">
+          <div><p class="eyebrow">Struttura operativa</p><h2 class="section-title">Comandi principali</h2></div>
+          <p class="section-intro">Quattro componenti con capacità complementari, dalle unità navali alle operazioni speciali e anfibie.</p>
+        </div>
+        <div class="command-grid">
+          <article class="command-card"><img src="assets/comdinav.jpg" alt="Prima Squadra Navale"><div class="command-copy"><span>Unità di superficie</span><h3>Prima Squadra Navale</h3><p>Nucleo operativo per interventi e presenza in scenari marittimi complessi.</p></div></article>
+          <article class="command-card"><img src="assets/comitmarfor.jpg" alt="Seconda Squadra Navale"><div class="command-copy"><span>Sorveglianza</span><h3>Seconda Squadra Navale</h3><p>Pattugliamento, controllo delle aree assegnate e supporto alle operazioni.</p></div></article>
+          <article class="command-card"><img src="assets/comsubin.jpg" alt="COMSUBIN"><div class="command-copy"><span>Operazioni speciali</span><h3>COMSUBIN</h3><p>Componente subacquea e incursori per attività ad alta specializzazione.</p></div></article>
+          <article class="command-card"><img src="assets/sanmarco.png" alt="Brigata Marina San Marco"><div class="command-copy"><span>Componente anfibia</span><h3>Brigata San Marco</h3><p>Forza da sbarco, protezione delle unità e supporto alle operazioni anfibie.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="missions" id="missioni">
+      <div class="container">
+        <div class="section-head">
+          <div><p class="eyebrow">Attività sul campo</p><h2 class="section-title">Missioni</h2></div>
+          <p class="section-intro">Scenari addestrativi e operativi che richiedono controllo, coordinamento e capacità di risposta.</p>
+        </div>
+        <div class="mission-grid">
+          <article class="mission-card"><img src="assets/maresicuro.jpg" alt="Missione Mare Sicuro"><div class="mission-copy"><div class="mission-meta"><span>Mediterraneo centrale</span><span>Sorveglianza</span></div><h3>Mare Sicuro</h3><p>Pattugliamento marittimo, protezione delle rotte e controllo delle aree di interesse.</p></div></article>
+          <article class="mission-card"><img src="assets/atalanta.jpg" alt="Missione Atalanta"><div class="mission-copy"><div class="mission-meta"><span>Alto mare</span><span>Cooperazione</span></div><h3>Atalanta</h3><p>Presenza navale coordinata e attività di contrasto alle minacce sulle linee di navigazione.</p></div></article>
+          <article class="mission-card"><img src="assets/unifil.jpg" alt="Missione UNIFIL"><div class="mission-copy"><div class="mission-meta"><span>Mediterraneo orientale</span><span>Sicurezza</span></div><h3>UNIFIL Maritime</h3><p>Supporto alla sicurezza marittima, monitoraggio e cooperazione tra unità navali.</p></div></article>
+          <article class="mission-card"><img src="assets/medisicuro.jpg" alt="Addestramento nel Mediterraneo"><div class="mission-copy"><div class="mission-meta"><span>Mediterraneo</span><span>Addestramento</span></div><h3>Attività Mediterraneo</h3><p>Esercitazioni congiunte per sviluppare manovra, comunicazioni e prontezza operativa.</p></div></article>
+          <article class="mission-card"><img src="assets/sicurezzacostiera.jpg" alt="Sicurezza costiera"><div class="mission-copy"><div class="mission-meta"><span>Acque costiere</span><span>Controllo</span></div><h3>Sicurezza Costiera</h3><p>Ricognizione delle coste, presidio dei punti sensibili e supporto alle unità in mare.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="ranks" id="gradi">
+      <div class="container">
+        <div class="section-head">
+          <div><p class="eyebrow">Gerarchia</p><h2 class="section-title">Gradi della Marina Militare</h2></div>
+          <p class="section-intro">Gradi ordinati per categoria con distintivi uniformati nelle dimensioni e nella disposizione.</p>
+        </div>
+        <div class="wiki-ranks-vertical" id="rank-layout"></div>
+      </div>
+    </section>
+
+    <section class="fleet" id="flotta">
+      <div class="container">
+        <div class="section-head">
+          <div><p class="eyebrow">Unità navali</p><h2 class="section-title">La flotta</h2></div>
+          <p class="section-intro">Alcune delle principali unità che rappresentano le diverse capacità della componente navale.</p>
+        </div>
+        <div class="fleet-grid">
+          <figure class="ship"><img src="assets/gallery/cavour.jpg" alt="Nave Cavour"><figcaption><strong>Cavour</strong><span>Unità portaeromobili</span></figcaption></figure>
+          <figure class="ship"><img src="assets/gallery/andreadoria.jpg" alt="Nave Andrea Doria"><figcaption><strong>Andrea Doria</strong><span>Cacciatorpediniere</span></figcaption></figure>
+          <figure class="ship"><img src="assets/gallery/calioduilio.jpg" alt="Nave Caio Duilio"><figcaption><strong>Caio Duilio</strong><span>Cacciatorpediniere</span></figcaption></figure>
+          <figure class="ship"><img src="assets/gallery/bergamini.jpg" alt="Nave Bergamini"><figcaption><strong>Carlo Bergamini</strong><span>Fregata multiruolo</span></figcaption></figure>
+        </div>
+      </div>
+    </section>
+</main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <section><h2 class="footer-title">Marina Militare</h2><p class="footer-copy">Area navale collegata al portale principale dell’Esercito, dedicata a organizzazione, attività, gradi e unità della Marina.</p></section>
+        <section><h2 class="footer-title">Marina</h2><div class="footer-links"><a href="#chi-siamo"><i class="fa-solid fa-compass"></i> Chi siamo</a><a href="#comandi"><i class="fa-solid fa-anchor"></i> Comandi</a><a href="#missioni"><i class="fa-solid fa-map"></i> Missioni</a><a href="quiz.html"><i class="fa-solid fa-clipboard-question"></i> Quiz Marina</a><a href="#gradi"><i class="fa-solid fa-medal"></i> Gradi</a></div></section>
+        <section><h2 class="footer-title">Portale principale</h2><div class="footer-links"><a href="../index.html"><i class="fa-solid fa-house"></i> Esercito</a><a href="../amita/index.html"><i class="fa-solid fa-plane"></i> Aeronautica</a><a href="../portale.html"><i class="fa-solid fa-newspaper"></i> Notizie</a><a href="../candidatura.html"><i class="fa-solid fa-file-signature"></i> Candidatura</a><a href="../quiz.html"><i class="fa-solid fa-clipboard-question"></i> Quiz</a></div></section>
+      </div>
+      <div class="footer-bottom"><span>© 2026 Marina Militare</span><span>Componente navale del portale Esercito Italiano</span></div>
+    </div>
+  </footer>
+  <div class="disclaimer"><div class="container">Tutti i contenuti presenti in questa sezione sono frutto di fantasia e destinati esclusivamente a un contesto ricreativo e narrativo. Nomi, gradi, missioni, reparti e riferimenti istituzionali non hanno alcun valore ufficiale, amministrativo o legale e non sono collegati alla Marina Militare, all’Esercito Italiano, al Ministero della Difesa o ad altri enti reali.</div></div>
+
+  <script>
+    const rankUrl = file => `https://it.wikipedia.org/wiki/Special:Redirect/file/${encodeURIComponent(file)}`;
+    const ranks = [
+      ["ammiragli", "Ammiraglio", "Rank insignia of ammiraglio of the Italian Navy.svg"],
+      ["ammiragli", "Ammiraglio di squadra con incarichi speciali", "Rank insignia of ammiraglio di squadra con incarichi speciali of the Italian Navy.svg"],
+      ["ammiragli", "Ammiraglio ispettore capo", "Rank insignia of ammiraglio ispettore comandante of the Italian Navy.svg"],
+      ["ammiragli", "Ammiraglio di squadra", "Rank insignia of ammiraglio di squadra of the Italian Navy.svg"],
+      ["ammiragli", "Ammiraglio di divisione", "Rank insignia of ammiraglio di divisione of the Italian Navy.svg"],
+      ["ammiragli", "Contrammiraglio", "Rank insignia of contrammiraglio of the Italian Navy.svg"],
+      ["ufficiali-superiori", "Capitano di vascello", "Rank insignia of capitano di vascello of the Italian Navy.svg"],
+      ["ufficiali-superiori", "Capitano di fregata", "Rank insignia of capitano di fregata of the Italian Navy.svg"],
+      ["ufficiali-superiori", "Capitano di corvetta", "Rank insignia of capitano di corvetta of the Italian Navy.svg"],
+      ["ufficiali-inferiori", "Primo tenente di vascello", "Rank insignia of primo tenente di vascello of the Italian Navy.svg"],
+      ["ufficiali-inferiori", "Tenente di vascello", "Rank insignia of tenente di vascello of the Italian Navy.svg"],
+      ["ufficiali-inferiori", "Sottotenente di vascello", "Rank insignia of sottotenente di vascello of the Italian Navy.svg"],
+      ["ufficiali-inferiori", "Guardiamarina", "Rank insignia of guardiamarina of the Italian Navy.svg"],
+      ["ufficiali-inferiori", "Aspirante guardiamarina", "Rank insignia of aspirante guardiamarina of the Italian Navy.svg"],
+      ["marescialli", "Primo luogotenente", "Rank insignia of primo luogotenente of the Italian Navy.png"],
+      ["marescialli", "Luogotenente", "Rank insignia of primo maresciallo luogotenente of the Italian Navy.svg"],
+      ["marescialli", "Primo maresciallo", "Rank insignia of primo maresciallo of the Italian Navy.svg"],
+      ["marescialli", "Capo di prima classe", "Rank insignia of capo di prima classe of the Italian Navy.svg"],
+      ["marescialli", "Capo di seconda classe", "Rank insignia of capo di seconda classe of the Italian Navy.svg"],
+      ["marescialli", "Capo di terza classe", "Rank insignia of capo di terza classe of the Italian Navy.svg"],
+      ["sergenti", "Secondo capo aiutante", "Rank insignia of secondo capo scelto qs of the Italian Navy.png"],
+      ["sergenti", "Secondo capo scelto", "Rank insignia of secondo capo scelto of the Italian Navy.svg"],
+      ["sergenti", "Secondo capo", "Rank insignia of secondo capo of the Italian Navy.svg"],
+      ["sergenti", "Sergente", "Rank insignia of sergente of the Italian Navy.svg"],
+      ["graduati", "Sottocapo aiutante", "Rank insignia of sottocapo di prima classe scelto qs of the Italian Navy.png"],
+      ["graduati", "Sottocapo scelto", "Rank insignia of sottocapo di prima classe scelto of the Italian Navy.svg"],
+      ["graduati", "Sottocapo di prima classe", "Rank insignia of sottocapo di prima classe of the Italian Navy.svg"],
+      ["graduati", "Sottocapo di seconda classe", "Rank insignia of sottocapo di seconda classe of the Italian Navy.svg"],
+      ["graduati", "Sottocapo di terza classe", "Rank insignia of sottocapo di terza classe of the Italian Navy.svg"],
+      ["truppa", "Comune scelto", "Rank insignia of sottocapo of the Italian Navy.svg"],
+      ["truppa", "Comune di prima classe", "Rank insignia of comune di prima classe of the Italian Navy.svg"],
+      ["truppa", "Comune di seconda classe", ""]
+    ];
+    const rankItem = ([, name, file], extraClass = "") => `
+      <div class="rank-wiki-item ${extraClass}">
+        <div class="rank-wiki-image-wrap">${file ? `<img src="${rankUrl(file)}" alt="Distintivo ${name}" loading="lazy">` : `<span class="no-insignia">nessun distintivo</span>`}</div>
+        <div class="rank-wiki-name">${name}</div>
+      </div>`;
+
+    const byGroup = group => ranks.filter(rank => rank[0] === group);
+    const regularCategory = (band, title, group) => `
+      <div class="wiki-rank-category">
+        ${band ? `<div class="wiki-rank-category-title rank-wiki-band">${band}</div>` : ""}
+        <div class="wiki-rank-category-title">${title}</div>
+        <div class="rank-wiki-row">${byGroup(group).map(rank => rankItem(rank)).join("")}</div>
+      </div>`;
+
+    const admirals = byGroup("ammiragli");
+    document.querySelector("#rank-layout").innerHTML = `
+      <div class="wiki-rank-category rank-general-category">
+        <div class="wiki-rank-category-title rank-wiki-band">categoria degli ufficiali</div>
+        <div class="wiki-rank-category-title">ufficiali ammiragli</div>
+        <div class="rank-general-tree">
+          <div class="rank-general-level">${rankItem(admirals[0])}</div>
+          <div class="rank-general-level">${rankItem(admirals[1], "rank-general-feature")}</div>
+          <div class="rank-general-bottom">${admirals.slice(2).map(rank => rankItem(rank)).join("")}</div>
+        </div>
+      </div>
+      ${regularCategory("", "ufficiali superiori", "ufficiali-superiori")}
+      ${regularCategory("", "ufficiali inferiori", "ufficiali-inferiori")}
+      ${regularCategory("categoria dei sottufficiali", "ruolo dei marescialli", "marescialli")}
+      ${regularCategory("", "ruolo dei sergenti", "sergenti")}
+      ${regularCategory("categoria dei graduati", "ruolo dei graduati", "graduati")}
+      ${regularCategory("categoria dei militari di truppa", "comuni", "truppa")}`;
+
+    const menuButton = document.querySelector(".menu-toggle");
+    const menu = document.querySelector("#main-nav");
+    menuButton.addEventListener("click", () => {
+      const open = menu.classList.toggle("open");
+      menuButton.setAttribute("aria-expanded", String(open));
+      menuButton.innerHTML = open ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
+    });
+    menu.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+      menu.classList.remove("open");
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.innerHTML = '<i class="fa-solid fa-bars"></i>';
+    }));
+  </script>
+</body>
+</html>

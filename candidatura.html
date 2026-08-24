@@ -46,7 +46,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0
 textarea{min-height:112px;resize:vertical}.counter{font-size:10px;color:#929992;text-align:right}
 .consent{margin-top:20px;background:var(--soft);border:1px solid var(--line);padding:16px;display:flex;gap:11px;align-items:flex-start}
 .consent input{width:auto;margin-top:3px}.consent label{font-weight:500;line-height:1.55;color:#5b635b}
-.submit-row{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:24px}
+.choice-field{margin:0;padding:0;border:0}.choice-field legend{margin-bottom:9px;color:var(--green);font-size:11px;font-weight:800;text-transform:none;line-height:1.55}.choice-row{display:flex;gap:10px}.choice-option{min-width:92px;display:flex;align-items:center;gap:9px;padding:11px 14px;border:1px solid #cbd1c9;background:#fff;cursor:pointer}.choice-option input{width:auto;margin:0}.choice-option:has(input:checked){border-color:var(--green);background:var(--soft)}.field label small{display:block;margin-top:5px;color:var(--muted);font-size:10px;font-weight:500;line-height:1.5;text-transform:none}.submit-row{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:24px}
 .submit{border:0;background:var(--green);color:#fff;padding:14px 22px;font-weight:800;cursor:pointer}.submit:disabled{opacity:.55;cursor:not-allowed}
 .status{font-size:12px;color:var(--muted)}.status.error{color:#b42318}
 .success-box{display:none;padding:55px;text-align:center}.success-box i{font-size:55px;color:var(--green);margin-bottom:16px}
@@ -117,25 +117,45 @@ footer{padding:28px 0;text-align:center;color:#899189;font-size:11px}
 
 <form id="applicationForm">
 <div class="grid">
-<div class="field"><label>Nome personaggio *</label><input name="nomeRp" maxlength="40" required placeholder="Nome"></div>
-<div class="field"><label>Cognome personaggio *</label><input name="cognomeRp" maxlength="40" required placeholder="Cognome"></div>
-<div class="field"><label>Età *</label><input name="etaPersonaggio" type="number" min="18" max="90" required placeholder="es. 24"></div>
+  <div class="field full"><label for="nomeCognome">Nome &amp; Cognome *</label><input id="nomeCognome" name="nomeCognome" maxlength="90" autocomplete="name" required></div>
+  <div class="field"><label for="telefono">Numero di Telefono *</label><input id="telefono" name="telefono" type="tel" maxlength="30" autocomplete="tel" required></div>
+  <div class="field"><label for="dataNascita">Data di Nascita *</label><input id="dataNascita" name="dataNascita" type="date" autocomplete="bday" required></div>
 
-<div class="field full"><label>Reparto preferito *</label>
-<select name="reparto" required>
-<option value="">Seleziona...</option>
-<option>Fanteria</option><option>Cavalleria</option><option>Artiglieria</option><option>Genio</option>
-<option>Paracadutisti</option><option>Carristi</option><option>Aviazione dell'Esercito / Piloti</option>
-<option>Logistica / Trasporti e Materiali</option><option>Indifferente / Da assegnare</option>
-</select></div>
+  <fieldset class="field full choice-field">
+    <legend>Il qui presente candidato afferma di godere di Diritti civili e politici? *</legend>
+    <div class="choice-row">
+      <label class="choice-option"><input type="radio" name="dirittiCivili" value="Sì" required><span>Sì</span></label>
+      <label class="choice-option"><input type="radio" name="dirittiCivili" value="No" required><span>No</span></label>
+    </div>
+  </fieldset>
+  <fieldset class="field full choice-field">
+    <legend>Il qui presente candidato afferma di essere incensurato alla legge? *</legend>
+    <div class="choice-row">
+      <label class="choice-option"><input type="radio" name="incensurato" value="Sì" required><span>Sì</span></label>
+      <label class="choice-option"><input type="radio" name="incensurato" value="No" required><span>No</span></label>
+    </div>
+  </fieldset>
+  <fieldset class="field full choice-field">
+    <legend>Il qui presente candidato afferma di non avere procedimenti penali in corso? *</legend>
+    <div class="choice-row">
+      <label class="choice-option"><input type="radio" name="noProcedimenti" value="Sì" required><span>Sì</span></label>
+      <label class="choice-option"><input type="radio" name="noProcedimenti" value="No" required><span>No</span></label>
+    </div>
+  </fieldset>
+  <fieldset class="field full choice-field">
+    <legend>Il qui presente candidato afferma di possedere i certificati richiesti? *</legend>
+    <div class="choice-row">
+      <label class="choice-option"><input type="radio" name="certificati" value="Sì" required><span>Sì</span></label>
+      <label class="choice-option"><input type="radio" name="certificati" value="No" required><span>No</span></label>
+    </div>
+  </fieldset>
 
-<div class="field full"><label>Esperienza precedente *</label><textarea id="esperienza" name="esperienza" maxlength="900" required></textarea><div class="counter"><span data-count="esperienza">0</span>/900</div></div>
-<div class="field full"><label>Perché vuoi entrare nell'Esercito Italiano? *</label><textarea id="motivazione" name="motivazione" maxlength="900" required></textarea><div class="counter"><span data-count="motivazione">0</span>/900</div></div>
-<div class="field full"><label>Disponibilità indicativa *</label><textarea id="disponibilita" name="disponibilita" maxlength="500" required></textarea><div class="counter"><span data-count="disponibilita">0</span>/500</div></div>
-<div class="field full"><label>Note aggiuntive</label><textarea id="note" name="note" maxlength="500"></textarea><div class="counter"><span data-count="note">0</span>/500</div></div>
+  <div class="field full"><label for="presentazione">Il qui presente candidato è invitato a presentare la propria persona all'interno del sottostante spazio: *</label><textarea id="presentazione" name="presentazione" maxlength="1200" required></textarea><div class="counter"><span data-count="presentazione">0</span>/1200</div></div>
+  <div class="field full"><label for="esperienza">Esperienza precedente *</label><textarea id="esperienza" name="esperienza" maxlength="900" required></textarea><div class="counter"><span data-count="esperienza">0</span>/900</div></div>
+  <div class="field full"><label for="motivazione">Perché vuoi entrare nell'Esercito Italiano? *</label><textarea id="motivazione" name="motivazione" maxlength="900" required></textarea><div class="counter"><span data-count="motivazione">0</span>/900</div></div>
+  <div class="field full"><label for="disponibilita">Indicare la Propria disponibilità oraria: *<small>Si preferisce che il candidato abbia una fascia oraria compresa fra le 21:00 e le 23:00.</small></label><textarea id="disponibilita" name="disponibilita" maxlength="500" required></textarea><div class="counter"><span data-count="disponibilita">0</span>/500</div></div>
 </div>
 
-<div class="consent"><input id="confermaRegolamento" type="checkbox" required><label for="confermaRegolamento">Confermo di aver letto il regolamento e che i dati inseriti sono corretti.</label></div>
 <div class="preview-warning" id="previewWarning">La candidatura viene inviata allo staff tramite Discord.</div>
 <div class="submit-row"><div class="status" id="status">Pronto per l'invio.</div><button class="submit" id="submitButton" type="submit"><i class="fa-solid fa-paper-plane"></i> INVIA CANDIDATURA</button></div>
 </form>
@@ -268,14 +288,6 @@ form.addEventListener('submit', async e => {
   const payload = Object.fromEntries(new FormData(form).entries());
   payload.discordUsername = discordUserData.username;
   payload.discordId = discordUserData.id;
-  payload.confermaRegolamento = document.getElementById('confermaRegolamento').checked;
-  payload.dataInvio = new Date().toLocaleString('it-IT');
-
-  if (!payload.confermaRegolamento) {
-    statusEl.className = 'status error';
-    statusEl.textContent = 'Devi confermare il regolamento.';
-    return;
-  }
 
   const saved = JSON.parse(localStorage.getItem('ei_candidature') || '[]');
   saved.unshift(payload);
@@ -287,9 +299,17 @@ form.addEventListener('submit', async e => {
     `Discord verificato: ${payload.discordUsername}`,
     `ID Discord: ${payload.discordId}`,
     '',
-    `Dati candidato: ${payload.nomeRp || ''} ${payload.cognomeRp || ''}`,
-    `Età: ${payload.etaPersonaggio || ''}`,
-    `Reparto preferito: ${payload.reparto || ''}`,
+    `Nome & Cognome: ${payload.nomeCognome || ''}`,
+    `Numero di Telefono: ${payload.telefono || ''}`,
+    `Data di Nascita: ${payload.dataNascita || ''}`,
+    '',
+    `Diritti civili e politici: ${payload.dirittiCivili || ''}`,
+    `Incensurato alla legge: ${payload.incensurato || ''}`,
+    `Nessun procedimento penale in corso: ${payload.noProcedimenti || ''}`,
+    `Certificati richiesti posseduti: ${payload.certificati || ''}`,
+    '',
+    'Presentazione personale:',
+    payload.presentazione || '',
     '',
     'Esperienza precedente:',
     payload.esperienza || '',
@@ -297,28 +317,26 @@ form.addEventListener('submit', async e => {
     'Motivazione:',
     payload.motivazione || '',
     '',
-    'Disponibilità:',
+    'Disponibilità oraria:',
     payload.disponibilita || '',
     '',
-    'Note:',
-    payload.note || 'Nessuna',
-    '',
-    `Data: ${payload.dataInvio}`
+    `Data invio: ${payload.dataInvio}`
   ];
 
   const text = lines.join('\n');
   const clip = (value, max = 1000) => String(value || 'Nessuna').slice(0, max);
   const webhookPayload = {
     embeds: [{
-      title: `Nuova candidatura - ${clip(payload.nomeRp, 80)} ${clip(payload.cognomeRp, 80)}`,
+      title: `Nuova candidatura - ${clip(payload.nomeCognome, 150)}`,
       color: 5467464,
       fields: [
         {name: 'Account Discord', value: `**Username:** ${clip(payload.discordUsername)}\n**ID:** ${clip(payload.discordId)}`, inline: false},
-        {name: 'Dati candidato', value: `**Nome:** ${clip(payload.nomeRp)} ${clip(payload.cognomeRp)}\n**Età:** ${clip(payload.etaPersonaggio)}\n**Reparto:** ${clip(payload.reparto)}`, inline: false},
+        {name: 'Dati candidato', value: `**Nome & Cognome:** ${clip(payload.nomeCognome)}\n**Telefono:** ${clip(payload.telefono)}\n**Data di Nascita:** ${clip(payload.dataNascita)}`, inline: false},
+        {name: 'Dichiarazioni', value: `**Diritti civili e politici:** ${clip(payload.dirittiCivili)}\n**Incensurato alla legge:** ${clip(payload.incensurato)}\n**Nessun procedimento penale in corso:** ${clip(payload.noProcedimenti)}\n**Certificati richiesti posseduti:** ${clip(payload.certificati)}`, inline: false},
+        {name: 'Presentazione personale', value: clip(payload.presentazione), inline: false},
         {name: 'Esperienza precedente', value: clip(payload.esperienza), inline: false},
-        {name: 'Motivazione', value: clip(payload.motivazione), inline: false},
-        {name: 'Disponibilità', value: clip(payload.disponibilita), inline: false},
-        {name: 'Note aggiuntive', value: clip(payload.note), inline: false},
+        {name: "Perché vuole entrare nell'Esercito", value: clip(payload.motivazione), inline: false},
+        {name: 'Disponibilità oraria', value: clip(payload.disponibilita), inline: false},
         {name: 'Data invio', value: clip(payload.dataInvio), inline: false}
       ],
       timestamp: new Date().toISOString()
